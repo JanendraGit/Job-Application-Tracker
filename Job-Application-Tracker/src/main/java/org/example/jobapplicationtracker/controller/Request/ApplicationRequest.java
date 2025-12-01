@@ -1,4 +1,4 @@
 package org.example.jobapplicationtracker.controller.Request;
 
-public class UserRequest {
+public class ApplicationRequest {
 }

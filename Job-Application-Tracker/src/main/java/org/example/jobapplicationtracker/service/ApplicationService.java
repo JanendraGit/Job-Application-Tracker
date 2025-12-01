@@ -1,4 +1,4 @@
 package org.example.jobapplicationtracker.service;
 
-public interface UserServise {
+public interface ApplicationService {
 }

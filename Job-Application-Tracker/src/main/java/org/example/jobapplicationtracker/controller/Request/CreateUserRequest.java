@@ -1,11 +1,9 @@
-package org.example.jobapplicationtracker.controller.Response;
+package org.example.jobapplicationtracker.controller.Request;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
-public class UserResponse {
+public class CreateUserRequest {
     private Long id;
     private String name;
     private String email;
