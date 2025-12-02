@@ -4,6 +4,7 @@ import org.example.jobapplicationtracker.Exception.UserNotFoundException;
 import org.example.jobapplicationtracker.controller.DTO.UserDTO;
 import org.example.jobapplicationtracker.controller.Request.CreateUserRequest;
 import org.example.jobapplicationtracker.controller.Request.UpdateUserRequest;
+import org.example.jobapplicationtracker.controller.Response.UserList;
 import org.example.jobapplicationtracker.controller.Response.UserResponse;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface UserService {
     void updateUserName(Long id, String userName) throws UserNotFoundException;
     void updateUserEmail(Long id, String email) throws UserNotFoundException;
     void updateUserPassword(Long id, String password) throws UserNotFoundException;
-    List<UserResponse> getAllUsers();
+    List<UserList> getAllUsers();
 }

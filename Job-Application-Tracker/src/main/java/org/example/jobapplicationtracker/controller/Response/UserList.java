@@ -1,9 +1,11 @@
-package org.example.jobapplicationtracker.controller.DTO;
+package org.example.jobapplicationtracker.controller.Response;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+@Builder
+public class UserList {
     private Long id;
     private String name;
     private String email;
