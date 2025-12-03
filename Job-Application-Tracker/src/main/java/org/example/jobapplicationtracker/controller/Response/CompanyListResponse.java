@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserList {
+public class CompanyListResponse {
     private Long id;
     private String name;
-    private String email;
-    private String password;
+    private String website;
+    private String description;
 }
