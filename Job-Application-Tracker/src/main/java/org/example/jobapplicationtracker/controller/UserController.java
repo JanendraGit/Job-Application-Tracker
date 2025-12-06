@@ -1,49 +1,41 @@
 package org.example.jobapplicationtracker.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.jobapplicationtracker.Exception.UserNotFoundException;
 import org.example.jobapplicationtracker.controller.DTO.UserDTO;
 import org.example.jobapplicationtracker.controller.Request.CreateUserRequest;
 import org.example.jobapplicationtracker.controller.Request.UpdateUserRequest;
-import org.example.jobapplicationtracker.controller.Response.UserListResponse;
-import org.example.jobapplicationtracker.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.example.jobapplicationtracker.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
-    private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<UserDTO> addUser(@RequestBody CreateUserRequest createUserRequest) throws UserNotFoundException {
-        UserDTO userDTO = userService.addUser(createUserRequest);
-        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
+    private final UserServiceImpl userService;
+
+    @PostMapping("/add")
+    public void addUser(@RequestBody CreateUserRequest userRequest){
+        userService.addUser(userRequest);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws UserNotFoundException {
-        UserDTO userDTO = userService.getById(id);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    }
-
-    @GetMapping
-    public ResponseEntity<UserListResponse> getAllUsers() {
-        UserListResponse userListResponse = userService.getAllUsers();
-        return new ResponseEntity<>(userListResponse, HttpStatus.OK);
+    public UserDTO getUserById(@PathVariable Long id){
+        return userService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) throws UserNotFoundException {
-        userService.update(id, updateUserRequest);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public void updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest){
+        userService.update(id, userRequest);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws UserNotFoundException {
+    public void deleteUser(@PathVariable Long id){
         userService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public void getAllUsers(){
+        userService.getAllUsers();
     }
 }

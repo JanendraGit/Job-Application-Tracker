@@ -1,5 +1,6 @@
-package org.example.jobapplicationtracker.controller.Response;
+package org.example.jobapplicationtracker.controller.Request;
 
+import lombok.Builder;
 import lombok.Data;
 import org.example.jobapplicationtracker.model.CurrentStatus;
 import org.example.jobapplicationtracker.model.Priority;
@@ -7,17 +8,13 @@ import org.example.jobapplicationtracker.model.Priority;
 import java.time.LocalDateTime;
 
 @Data
-public class ApplicationResponse {
-    private Long id;
+@Builder
+public class UpdateApplicationRequest {
     private String jobTitle;
-    private Long companyId;
-    private Long userId;
     private String location;
     private String source;
     private Double salary;
     private Priority priority;
     private LocalDateTime appliedDate;
     private CurrentStatus currentStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

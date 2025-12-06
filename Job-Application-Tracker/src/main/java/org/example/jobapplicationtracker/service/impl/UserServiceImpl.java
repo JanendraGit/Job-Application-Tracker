@@ -6,12 +6,12 @@ import org.example.jobapplicationtracker.Exception.UserNotFoundException;
 import org.example.jobapplicationtracker.controller.DTO.UserDTO;
 import org.example.jobapplicationtracker.controller.Request.CreateUserRequest;
 import org.example.jobapplicationtracker.controller.Request.UpdateUserRequest;
-import org.example.jobapplicationtracker.controller.Response.UserListResponse;
-import org.example.jobapplicationtracker.controller.Response.UserResponse;
-import org.example.jobapplicationtracker.mapper.UserMapper;
 import org.example.jobapplicationtracker.model.User;
 import org.example.jobapplicationtracker.repository.UserRepository;
 import org.example.jobapplicationtracker.service.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,28 +24,25 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDTO addUser(CreateUserRequest userRequest) throws UserNotFoundException {
+    public UserDTO addUser(CreateUserRequest userRequest) {
         Optional<User> optionalUser = userRepository.findByEmail(userRequest.getEmail());
         if (optionalUser.isPresent()) {
             throw new UserAlreadyExistsException("User with email " + userRequest.getEmail() + " already exists");
         }
-        User newUser = new User();
-        newUser.setEmail(userRequest.getEmail());
+        User newUser = modelMapper.map(userRequest, User.class);
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        newUser.setName(userRequest.getName());
         User savedUser = userRepository.save(newUser);
-        return userMapper.toUserDTO(savedUser);
+        return modelMapper.map(savedUser, UserDTO.class);
     }
 
     @Override
     public void update(Long id, UpdateUserRequest updateUserRequest) throws UserNotFoundException {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User with id " + id + " not found"));
-        user.setName(updateUserRequest.getName());
-        user.setEmail(updateUserRequest.getEmail());
+        modelMapper.map(updateUserRequest, user);
         if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
         }
@@ -61,23 +58,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getById(Long id) throws UserNotFoundException {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User with id " + id + " not found"));
-        return userMapper.toUserDTO(user);
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
-    public UserListResponse getAllUsers(){
+    public List<UserDTO> getAllUsers(){
         List<User> users = userRepository.findAll();
-        List<UserResponse> userResponses = users.stream()
-                .map(user -> {
-                    UserResponse userResponse = new UserResponse();
-                    userResponse.setId(user.getId());
-                    userResponse.setName(user.getName());
-                    userResponse.setEmail(user.getEmail());
-                    return userResponse;
-                })
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
-        UserListResponse userListResponse = new UserListResponse();
-        userListResponse.setUsers(userResponses);
-        return userListResponse;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
 }

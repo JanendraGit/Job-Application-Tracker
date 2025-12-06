@@ -5,11 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CompanyResponse {
+public class NoteResponse {
     private Long id;
-    private String name;
-    private String website;
-    private String description;
+    private String content;
+    private Long applicationId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

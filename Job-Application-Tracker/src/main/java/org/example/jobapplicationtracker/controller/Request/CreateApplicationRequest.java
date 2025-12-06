@@ -1,5 +1,7 @@
-package org.example.jobapplicationtracker.controller.Response;
+package org.example.jobapplicationtracker.controller.Request;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import org.example.jobapplicationtracker.model.CurrentStatus;
 import org.example.jobapplicationtracker.model.Priority;
@@ -7,8 +9,7 @@ import org.example.jobapplicationtracker.model.Priority;
 import java.time.LocalDateTime;
 
 @Data
-public class ApplicationResponse {
-    private Long id;
+public class CreateApplicationRequest {
     private String jobTitle;
     private Long companyId;
     private Long userId;
@@ -18,6 +19,4 @@ public class ApplicationResponse {
     private Priority priority;
     private LocalDateTime appliedDate;
     private CurrentStatus currentStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

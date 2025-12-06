@@ -5,6 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CompanyListResponse {
-    private List<CompanyResponse> companies;
+public class InterviewListResponse {
+    private List<InterviewResponse> interviews;
 }

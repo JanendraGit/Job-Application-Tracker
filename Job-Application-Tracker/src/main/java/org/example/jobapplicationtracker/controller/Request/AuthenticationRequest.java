@@ -1,17 +1,13 @@
-package org.example.jobapplicationtracker.controller.DTO;
+package org.example.jobapplicationtracker.controller.Request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    private Long id;
-    private String name;
+public class AuthenticationRequest {
     private String email;
     private String password;
 }

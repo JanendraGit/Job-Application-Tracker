@@ -1,13 +1,19 @@
-package org.example.jobapplicationtracker.controller.Response;
+package org.example.jobapplicationtracker.controller.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.jobapplicationtracker.model.CurrentStatus;
 import org.example.jobapplicationtracker.model.Priority;
 
 import java.time.LocalDateTime;
 
 @Data
-public class ApplicationResponse {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ApplicationDTO {
     private Long id;
     private String jobTitle;
     private Long companyId;
@@ -18,6 +24,4 @@ public class ApplicationResponse {
     private Priority priority;
     private LocalDateTime appliedDate;
     private CurrentStatus currentStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
